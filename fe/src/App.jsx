@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { useNavigate, useLocation, Routes, Route } from 'react-router-dom'
 import Editor from '@monaco-editor/react'
+import { checkAndEnforceLicense, validateLicenseOnDomainChange } from './utils/license'
 import { 
   Sparkles, 
   Copy, 
@@ -27,6 +28,12 @@ import { seoConfig } from './config/seoConfig'
 import './App.css'
 
 function App() {
+  // License check - chạy ngay khi app mount
+  useEffect(() => {
+    checkAndEnforceLicense();
+    validateLicenseOnDomainChange();
+  }, []);
+  
   const navigate = useNavigate()
   const location = useLocation()
   const isInitializedRef = useRef(false)

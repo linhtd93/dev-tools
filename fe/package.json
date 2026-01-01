@@ -5,7 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "stg": "vite --mode staging",
+    "prod": "vite --mode production",
     "build": "vite build",
+    "build:dev": "vite build --mode development",
+    "build:stg": "vite build --mode staging",
+    "build:prod": "vite build --mode production",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -18,6 +23,7 @@
     "base-x": "^5.0.1",
     "crypto-js": "^4.2.0",
     "java-parser": "^3.0.1",
+    "js-sha256": "^0.11.1",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.294.0",
     "monaco-editor": "^0.45.0",
@@ -30,6 +36,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
+    "terser": "^5.44.1",
     "vite": "^5.0.8"
   }
 }

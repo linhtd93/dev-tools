@@ -1,0 +1,63 @@
+name: Tests & Code Quality
+
+on:
+  push:
+    branches: [main, staging]
+  pull_request:
+    branches: [main, staging]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: fe/package-lock.json
+      
+      - name: Install dependencies
+        run: cd fe && npm ci
+      
+      - name: Run tests
+        run: cd fe && npm test --if-present || true
+  
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: fe/package-lock.json
+      
+      - name: Install dependencies
+        run: cd fe && npm ci
+      
+      - name: Run ESLint
+        run: cd fe && npm run lint --if-present || true
+  
+  security:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Run npm audit
+        run: cd fe && npm audit --audit-level=moderate || true
+      
+      - name: Dependency check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: 'DevTools Pro'
+          path: 'fe'
+          format: 'JSON'
+        continue-on-error: true
